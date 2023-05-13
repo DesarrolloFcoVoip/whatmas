@@ -1,8 +1,28 @@
 # whatmas
 Whatmas API
-# Nombre del Proyecto
+# Whatmas API
 
-Breve descripción del proyecto.
+API de consumo web utilizando el lenguaje de programación PHP. El programa proporciona diferentes métodos para realizar operaciones como enviar mensajes interactivos, administrar variables y consumir servicios web.
+
+Los métodos disponibles en la aplicación son los siguientes:
+
+    sendMessageList(): Este método permite enviar un mensaje interactivo de tipo lista. Se puede proporcionar un conjunto de elementos con títulos, descripciones y botones interactivos para que el   usuario interactúe con ellos.
+
+    sendMessageButton(): Este método envía un mensaje interactivo con botones. Se puede proporcionar un conjunto de botones para que el usuario seleccione una opción específica.
+
+    sendMessage(): Este método envía un mensaje de texto simple sin opciones interactivas adicionales.
+
+    varEdit(): Este método permite editar una variable existente en el servicio web. Se proporciona una clave de variable, un nuevo valor y un tiempo de duración.
+
+    varAdd(): Este método permite agregar una nueva variable al servicio web. Se proporciona una clave de variable, un valor y un tiempo de duración.
+
+    varRead(): Este método permite leer el valor de una variable existente en el servicio web. Se proporciona la clave de la variable y devuelve el valor correspondiente.
+
+    varDelete(): Este método permite eliminar una variable específica del servicio web. Se proporciona la clave de la variable a eliminar.
+
+    varDeleteAll(): Este método permite eliminar todas las variables almacenadas en el servicio web.
+
+Estos métodos utilizan una función auxiliar programConsumeWebService() para realizar la llamada al servicio web utilizando la biblioteca cURL de PHP.
 
 ## Tabla de Contenidos
 
@@ -17,13 +37,47 @@ Breve descripción del proyecto.
   - [varRead()](#varread)
   - [varDelete()](#vardelete)
   - [varDeleteAll()](#vardeleteall)
-- [Contribución](#contribución)
-- [Licencia](#licencia)
+
 
 ## Instalación
 
-Instrucciones para instalar y configurar el proyecto.
+Para utilizar esta aplicación, sigue los siguientes pasos:
+- Clona el repositorio en tu máquina local
+- Importa la clase en tu proyecto
+- Abre el archivo ApiWhatmasClient.php y realiza los siguientes cambios:
 
+    Actualiza los parámetros de configuración, como la clave de la API, la URL del servicio web, etc., con los valores correspondientes a tu entorno:
+    ```php
+    private $api_key = 'TU_API_KEY';
+    ```
+- Ahora puedes utilizar los diferentes métodos disponibles en la clase ApiWhatmasClient para interactuar con el servicio web. Por ejemplo:
+  ```php
+  
+  // Enviar un mensaje interactivo de tipo lista
+  $messageSender->sendMessageList();
+
+  // Enviar un mensaje interactivo con botones
+  $messageSender->sendMessageButton();
+
+  // Enviar un mensaje de texto simple
+  $messageSender->sendMessage();
+
+  // Editar una variable en el servicio web
+  $messageSender->varEdit();
+
+  // Agregar una nueva variable al servicio web
+  $messageSender->varAdd();
+
+  // Leer el valor de una variable del servicio web
+  $messageSender->varRead();
+
+  // Eliminar una variable del servicio web
+  $messageSender->varDelete();
+
+  // Eliminar todas las variables del servicio web
+  $messageSender->varDeleteAll();
+  ```
+    
 ## Uso
 
 Explicación de cómo utilizar el proyecto. Incluye ejemplos de código, comandos o configuraciones.
