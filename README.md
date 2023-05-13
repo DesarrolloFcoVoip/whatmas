@@ -44,12 +44,11 @@ Estos métodos utilizan una función auxiliar programConsumeWebService() para re
 Para utilizar esta aplicación, sigue los siguientes pasos:
 - Clona el repositorio en tu máquina local
 - Importa la clase en tu proyecto
-- Abre el archivo ApiWhatmasClient.php y realiza los siguientes cambios:
-
-    Actualiza los parámetros de configuración, como la clave de la API, con los valores correspondientes a tu entorno:
-    ```php
-    private $api_key = 'TU_API_KEY';
-    ```
+- Exporta la variable API_KEY de manera grlobal
+- instanciar la clase : 
+```php 
+    $object=new ApiWhatmasClient();
+```
 - Ahora puedes utilizar los diferentes métodos disponibles en la clase ApiWhatmasClient para interactuar con el servicio web. Por ejemplo:
   ```php
   
