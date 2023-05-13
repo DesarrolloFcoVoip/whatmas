@@ -8,8 +8,13 @@ class ApiWhatmasClient
     // La URL para enviar mensajes.
     private $url_send_message = "https://app.whatmas.com/api/v1/send_message/index.php";
     private $url_var = "https://app.whatmas.com/api/v1/var/index.php";
-    private $api_key = "API-KEY";
+    private $api_key ;
 
+
+    function __construct()
+    {
+        $this->api_key=getenv('API_KEY');
+    }
     /**
      *     sendMessageList(): Esta función envía un mensaje de tipo lista.
     $array_example: Un ejemplo de array con los datos del mensaje a enviar. Puedes personalizar este array según tus necesidades.
