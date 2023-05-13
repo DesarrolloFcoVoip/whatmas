@@ -53,28 +53,28 @@ Para utilizar esta aplicación, sigue los siguientes pasos:
   ```php
   
   // Enviar un mensaje interactivo de tipo lista
-  $messageSender->sendMessageList();
+  $object->sendMessageList();
 
   // Enviar un mensaje interactivo con botones
-  $messageSender->sendMessageButton();
+  $object->sendMessageButton();
 
   // Enviar un mensaje de texto simple
-  $messageSender->sendMessage();
+  $object->sendMessage();
 
   // Editar una variable en el servicio web
-  $messageSender->varEdit();
+  $object->varEdit();
 
   // Agregar una nueva variable al servicio web
-  $messageSender->varAdd();
+  $object->varAdd();
 
   // Leer el valor de una variable del servicio web
-  $messageSender->varRead();
+  $object->varRead();
 
   // Eliminar una variable del servicio web
-  $messageSender->varDelete();
+  $object->varDelete();
 
   // Eliminar todas las variables del servicio web
-  $messageSender->varDeleteAll();
+  $object->varDeleteAll();
   ```
     
 ## Uso
