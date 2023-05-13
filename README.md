@@ -46,7 +46,7 @@ Para utilizar esta aplicación, sigue los siguientes pasos:
 - Importa la clase en tu proyecto
 - Abre el archivo ApiWhatmasClient.php y realiza los siguientes cambios:
 
-    Actualiza los parámetros de configuración, como la clave de la API, la URL del servicio web, etc., con los valores correspondientes a tu entorno:
+    Actualiza los parámetros de configuración, como la clave de la API, con los valores correspondientes a tu entorno:
     ```php
     private $api_key = 'TU_API_KEY';
     ```
