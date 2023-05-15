@@ -44,7 +44,7 @@ Estos métodos utilizan una función auxiliar programConsumeWebService() para re
 Para utilizar esta aplicación, sigue los siguientes pasos:
 - Clona el repositorio en tu máquina local
 - Importa la clase en tu proyecto
-- Exporta la variable API_KEY de manera grlobal
+- Exporta la variable API_KEY de manera global
 - instanciar la clase : 
 ```php 
     $object=new ApiWhatmasClient();
