@@ -314,8 +314,9 @@ Es importante tener en cuenta que una vez que todos los valores han sido elimina
         // Llamada a la función para consumir el servicio web
         $return = $this::programConsumeWebService($this->url_var, "POST", $this->api_key, $array_example);
     }
- ```
- ### addTag()
+  ```
+
+###  addTag()
 
 Este endpoint permite agregar una etiqueta a un contacto en la API. La etiqueta se asigna a través del tag_name y se aplica al contacto identificado por el recipient_number.
 
