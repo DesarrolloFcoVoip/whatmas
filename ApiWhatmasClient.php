@@ -8,6 +8,7 @@ class ApiWhatmasClient
     // La URL para enviar mensajes.
     private $url_send_message = "https://app.whatmas.com/api/v1/send_message/index.php";
     private $url_var = "https://app.whatmas.com/api/v1/var/index.php";
+    private $url_tag = "https://app.whatmas.com/api/v1/tag/index.php";
     private $api_key ;
 
 
@@ -199,6 +200,18 @@ class ApiWhatmasClient
 
         // Llamada a la función para consumir el servicio web
         $return = $this::programConsumeWebService($this->url_var, "POST", $this->api_key, $array_example);
+    }
+
+
+    public function addTag(){
+        // Ejemplo de array con el tipo de eliminación "delete_all"
+        $array_example = [
+            "tag_name" => "tag_name",
+            "recipient_number" => "recipient_number",
+        ];
+
+        // Llamada a la función para consumir el servicio web
+        $return = $this::programConsumeWebService($this->url_tag, "POST", $this->api_key, $array_example);
     }
 
 
