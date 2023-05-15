@@ -37,6 +37,7 @@ Estos métodos utilizan una función auxiliar programConsumeWebService() para re
   - [varRead()](#varread)
   - [varDelete()](#vardelete)
   - [varDeleteAll()](#vardeleteall)
+  - [addTag()](#addTag)
 
 
 ## Instalación
@@ -315,4 +316,20 @@ Es importante tener en cuenta que una vez que todos los valores han sido elimina
     }
  ```
  
+### addTag()
 
+Este endpoint permite agregar una etiqueta a un contacto en la API. La etiqueta se asigna a través del tag_name y se aplica al contacto identificado por el recipient_number.
+
+  ```php
+    public function addTag(){
+        // Ejemplo de array con el tipo de eliminación "delete_all"
+        $array_example = [
+            "tag_name" => "tag_name",
+            "recipient_number" => "recipient_number",
+        ];
+
+        // Llamada a la función para consumir el servicio web
+        $return = $this::programConsumeWebService($this->url_tag, "POST", $this->api_key, $array_example);
+    }
+ ```
+ 
