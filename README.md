@@ -249,7 +249,7 @@ A continuación se describen los parámetros del JSON enviado al API:
     }
  ```
 
-### varRead()
+## varRead()
 
 El método "read" se utiliza para recuperar un valor específico de la base de datos de caché.
 
@@ -297,7 +297,7 @@ Es importante tener en cuenta que una vez que un valor ha sido eliminado de la c
  
   ### varDeleteAll()
   
-  El método "delete_all" se utiliza para eliminar todos los valores almacenados en la base de datos de caché de la empresa.
+El método "delete_all" se utiliza para eliminar todos los valores almacenados en la base de datos de caché de la empresa.
 
 A continuación se describe el único parámetro del JSON enviado al API:
 
@@ -315,8 +315,7 @@ Es importante tener en cuenta que una vez que todos los valores han sido elimina
         $return = $this::programConsumeWebService($this->url_var, "POST", $this->api_key, $array_example);
     }
  ```
- 
-### addTag()
+ ### addTag()
 
 Este endpoint permite agregar una etiqueta a un contacto en la API. La etiqueta se asigna a través del tag_name y se aplica al contacto identificado por el recipient_number.
 
