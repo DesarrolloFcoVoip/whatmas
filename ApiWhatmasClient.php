@@ -86,32 +86,32 @@ class ApiWhatmasClient
             ]
         ];
 
-//        $array_items_example=[
-//            [
-//                "title" => "Titulo",
-//                "description" => "Buenas."
-//            ],
-//            [
-//                "title" => "Titulo",
-//                "description" => "Buenas."
-//            ],
-//            [
-//                "title" => "Titulo",
-//                "description" => "Buenas."
-//            ],
-//            [
-//                "title" => "Titulo",
-//                "description" => "Buenas."
-//            ],
-//            [
-//                "title" => "Titulo",
-//                "description" => "Buenas."
-//            ],
-//            [
-//                "title" => "Titulo",
-//                "description" => "Buenas."
-//            ]
-//        ];
+        $array_items_example=[
+            [
+                "title" => "Titulo",
+                "description" => "Buenas."
+            ],
+            [
+                "title" => "Titulo",
+                "description" => "Buenas."
+            ],
+            [
+                "title" => "Titulo",
+                "description" => "Buenas."
+            ],
+            [
+                "title" => "Titulo",
+                "description" => "Buenas."
+            ],
+            [
+                "title" => "Titulo",
+                "description" => "Buenas."
+            ],
+            [
+                "title" => "Titulo",
+                "description" => "Buenas."
+            ]
+        ];
 
 
         // Llamada a la función para consumir el servicio web

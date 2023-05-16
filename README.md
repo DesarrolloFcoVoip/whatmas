@@ -44,12 +44,12 @@ Estos métodos utilizan una función auxiliar programConsumeWebService() para re
 
 Para utilizar esta aplicación, sigue los siguientes pasos:
 - Clona el repositorio en tu máquina local
-- Importa la clase en tu proyecto
-- Exporta la variable API_KEY de manera global
-- instanciar la clase : 
-```php 
-    $object=new ApiWhatmasClient();
-```
+  - Importa la clase en tu proyecto
+    - Exporta la variable API_KEY de manera global
+      - Enviar información recibida por el POST como parametros para instanciar la clase
+  ```php
+        $object = new ApiWhatmasClient(file_get_contents("php://input"));
+  ```
 - Ahora puedes utilizar los diferentes métodos disponibles en la clase ApiWhatmasClient para interactuar con el servicio web. Por ejemplo:
   ```php
   
@@ -100,39 +100,56 @@ El método send_message_list es una forma efectiva de enviar mensajes interactiv
 - items (list): una lista de diccionarios que contiene los elementos que se mostrarán en la lista interactiva. Cada elemento debe tener dos claves: title y description, que representan el título y la descripción del elemento, respectivamente. El número máximo de elementos que se pueden mostrar en una lista es de 10.
 
 ```php
-public function sendMessageList() {
-    // Ejemplo de array con los datos del mensaje
-    $array_example = [
-        "company_channel_number" => 573244557697,
-        "message_text" => "Hello, world!",
-        "recipient_number" => "573219048473",
-        "message_type" => "text",
-        "message_subtype" => NULL,
-        "items" => [
-            // Ejemplo de elementos de la lista
-            [
-                "title" => "Elemento 1",
-                "subtitle" => "Descripción del elemento 1",
-                "image_url" => "https://example.com/image1.jpg",
-                "buttons" => [
-                    // Ejemplo de botones para el elemento 1
-                    [
-                        "title" => "Botón 1",
-                        "payload" => "button1"
-                    ],
-                    [
-                        "title" => "Botón 2",
-                        "payload" => "button2"
-                    ]
+    public function sendMessageList($text = "Hello, world!", $title_list = "Title list", $items = NULL)
+    {
+        // Ejemplo de array con los datos del mensaje a enviar
+        $array_example = [
+            "company_channel_number" => $this->num_company,
+            "message_text" =>  $this->replaceText($text),
+            "recipient_number" => $this->num_client,
+            "message_type" => "interactive",
+            "message_subtype" => "list",
+            "items" => [
+                [
+                    "title_list" => $title_list,
+                    "items" => $items
                 ]
-            ],
-            // Ejemplo de más elementos de la lista...
-        ]
-    ];
+            ]
+        ];
 
-    // Llamada a la función para consumir el servicio web
-    $return = $this::programConsumeWebService($this->url_send_message, "POST", $this->api_key, $array_example);
-}
+        $array_items_example=[
+            [
+                "title" => "Titulo",
+                "description" => "Buenas."
+            ],
+            [
+                "title" => "Titulo",
+                "description" => "Buenas."
+            ],
+            [
+                "title" => "Titulo",
+                "description" => "Buenas."
+            ],
+            [
+                "title" => "Titulo",
+                "description" => "Buenas."
+            ],
+            [
+                "title" => "Titulo",
+                "description" => "Buenas."
+            ],
+            [
+                "title" => "Titulo",
+                "description" => "Buenas."
+            ]
+        ];
+
+
+        // Llamada a la función para consumir el servicio web
+        $return = $this->programConsumeWebService($this->url_send_message, "POST", $this->api_key, $array_example);
+
+        return $return;
+    }
 ```
 
 ### sendMessageButton()
@@ -151,21 +168,31 @@ El método send_message_button es una forma efectiva de enviar mensajes interact
 - items (list): una lista de strings que representan los botones que se mostrarán en el mensaje. El número máximo de botones que se pueden mostrar en un mensaje es de 3.
 
 ```php
-    public function sendMessageButton(){
+    /**
+     *     sendMessageButton(): Esta función envía un mensaje de tipo botón.
+     * $array_example: Un ejemplo de array con los datos del mensaje a enviar. Puedes personalizar este array según tus necesidades.
+     * $return: La variable donde se almacenará el resultado de la llamada a la función programConsumeWebService(), que se asume que está definida en otro lugar. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
+     * programConsumeWebService(): Esta función se encarga de consumir un servicio web para enviar el mensaje. La implementación específica de esta función no se proporciona en el código dado. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
+     */
+    public function sendMessageButton($text = "Hello, world!", $items = NULL)
+    {
         // Ejemplo de array con los datos del mensaje a enviar
         $array_example = [
-            "company_channel_number" => 573244557697,
-            "message_text" => "Hello, world!",
-            "recipient_number" => "573219048473",
+            "company_channel_number" => $this->num_company,
+            "message_text" =>  $this->replaceText($text),
+            "recipient_number" => $this->num_client,
             "message_type" => "interactive",
             "message_subtype" => "button",
-            "items" => ["button 1", "button 2", "button 3"]
+            "items" => $items
         ];
 
+        $items_example = ["button 1", "button 2", "button 3"];
+
         // Llamada a la función para consumir el servicio web
-        $return = $this::programConsumeWebService($this->url_send_message, "POST", $this->api_key, $array_example);
+        $return = $this->programConsumeWebService($this->url_send_message, "POST", $this->api_key, $array_example);
+
+        return $return;
     }
-}
 ```
 
 ### sendMessage()
@@ -182,19 +209,27 @@ El método send_message_text es una forma efectiva de enviar mensajes de texto s
 - message_type (str): el tipo de mensaje que se enviará. En este caso, el valor debe ser "text".
 
 ```php
-    public function sendMessage(){
+    /**
+     *     sendMessage(): Esta función envía un mensaje de texto.
+     * $array_example: Un ejemplo de array con los datos del mensaje a enviar. Puedes personalizar este array según tus necesidades.
+     * $return: La variable donde se almacenará el resultado de la llamada a la función programConsumeWebService(), que se asume que está definida en otro lugar. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
+     * programConsumeWebService(): Esta función se encarga de consumir un servicio web para enviar el mensaje. La implementación específica de esta función no se proporciona en el código dado. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
+     */
+    public function sendMessage($text = "Hello, world!")
+    {
         // Ejemplo de array con los datos del mensaje a enviar
         $array_example = [
-            "company_channel_number" => 573244557697,
-            "message_text" => "Hello, world!",
-            "recipient_number" => "573219048473",
+            "company_channel_number" => $this->num_company,
+            "message_text" => $this->replaceText($text),
+            "recipient_number" => $this->num_client,
             "message_type" => "text",
             "message_subtype" => NULL,
             "items" => NULL
         ];
 
         // Llamada a la función para consumir el servicio web
-        $return = $this::programConsumeWebService($this->url_send_message, "POST", $this->api_key, $array_example);
+        $return = $this->programConsumeWebService($this->url_send_message, "POST", $this->api_key, $array_example);
+        return $return;
     }
  ```
  ### varEdit()
@@ -209,17 +244,30 @@ A continuación se describen los parámetros del JSON enviado al API:
 - "time": es el tiempo en minutos que se va a mantener el valor actualizado en la caché antes de que sea eliminado automáticamente. Después de este tiempo, el valor se considera "caducado" y se elimina de la caché. Si no se especifica ningún tiempo, el valor se mantiene en la caché indefinidamente.
 
 ```php
-    public function varEdit(){
+  /**
+     *     varEdit(): Esta función edita una variable.
+     * $array_example: Un ejemplo de array con los datos de la variable a editar. Puedes personalizar este array según tus necesidades.
+     * $return: La variable donde se almacenará el resultado de la llamada a la función programConsumeWebService(), que se asume que está definida en otro lugar. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
+     * programConsumeWebService(): Esta función se encarga de consumir un servicio web para realizar la edición de la variable. La implementación específica de esta función no se proporciona en el código dado. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
+     */
+    public function varEdit(
+        $key,
+        $value,
+        $time = 60 //minutes,
+    )
+    {
         // Ejemplo de array con los datos de la variable a editar
         $array_example = [
-            "type" => "edit",
-            "key" => "valor key",
-            "value" => "value",
-            "time" => 1
+            "type" => 'edit',
+            "key" => $key,
+            "value" => $value,
+            "time" => $time
         ];
 
         // Llamada a la función para consumir el servicio web
-        $return = $this::programConsumeWebService($this->url_var, "POST", $this->api_key, $array_example);
+        $return = $this->programConsumeWebService($this->url_var, "POST", $this->api_key, $array_example);
+
+        return $return;
     }
  ```
  
@@ -235,17 +283,30 @@ A continuación se describen los parámetros del JSON enviado al API:
 - "time": es el tiempo en minutos que se va a mantener el valor en la caché antes de que sea eliminado automáticamente. Después de este tiempo, el valor se considera "caducado" y se elimina de la caché. Si no se especifica ningún tiempo, el valor se mantiene en la caché indefinidamente.
 
 ```php
-    public function varAdd(){
+  /**
+     *     varAdd(): Esta función agrega una nueva variable.
+     * $array_example: Un ejemplo de array con los datos de la nueva variable a agregar. Puedes personalizar este array según tus necesidades.
+     * $return: La variable donde se almacenará el resultado de la llamada a la función programConsumeWebService(), que se asume que está definida en otro lugar. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
+     * programConsumeWebService(): Esta función se encarga de consumir un servicio web para agregar la nueva variable. La implementación específica de esta función no se proporciona en el código dado. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
+     */
+    public function varAdd(
+        $key,
+        $value,
+        $time = 60 //minutes,
+    )
+    {
         // Ejemplo de array con los datos de la nueva variable a agregar
         $array_example = [
             "type" => "add",
-            "key" => "valor key",
-            "value" => "value",
-            "time" => 1
+            "key" => $key,
+            "value" => $value,
+            "time" => $time
         ];
 
         // Llamada a la función para consumir el servicio web
-        $return = $this::programConsumeWebService($this->url_var, "POST", $this->api_key, $array_example);
+        $return = $this->programConsumeWebService($this->url_var, "POST", $this->api_key, $array_example);
+
+        return $return;
     }
  ```
 
@@ -260,15 +321,26 @@ A continuación se describen los parámetros del JSON enviado al API:
 Es importante tener en cuenta que el valor devuelto por el método "read" puede estar caducado si ha pasado el tiempo de vida especificado al agregar o actualizar el valor en la caché. Por lo tanto, es posible que debas comprobar si el valor devuelto sigue siendo válido antes de usarlo.
 
 ```php
-    public function varRead(){
+   /**
+     *     varRead(): Esta función lee el valor de una variable.
+     * $array_example: Un ejemplo de array con los datos de la variable a leer. Puedes personalizar este array según tus necesidades.
+     * $return: La variable donde se almacenará el resultado de la llamada a la función programConsumeWebService(), que se asume que está definida en otro lugar. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
+     * programConsumeWebService(): Esta función se encarga de consumir un servicio web para leer el valor de la variable. La implementación específica de esta función no se proporciona en el código dado. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
+     */
+    public function varRead(
+        $key
+    )
+    {
         // Ejemplo de array con los datos de la variable a leer
         $array_example = [
             "type" => "read",
-            "key" => "valor key"
+            "key" => $key
         ];
 
         // Llamada a la función para consumir el servicio web
-        $return = $this::programConsumeWebService($this->url_var, "POST", $this->api_key, $array_example);
+        $return = $this->programConsumeWebService($this->url_var, "POST", $this->api_key, $array_example);
+
+        return $return;
     }
  ```
  
@@ -283,15 +355,24 @@ Es importante tener en cuenta que una vez que un valor ha sido eliminado de la c
 
 
 ```php
-    public function varDelete(){
+    /**
+     *     varDelete(): Esta función elimina una variable.
+     * $array_example: Un ejemplo de array con los datos de la variable a eliminar. Puedes personalizar este array según tus necesidades.
+     * $return: La variable donde se almacenará el resultado de la llamada a la función programConsumeWebService(), que se asume que está definida en otro lugar. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
+     * programConsumeWebService(): Esta función se encarga de consumir un servicio web para eliminar la variable. La implementación específica de esta función no se proporciona en el código dado. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
+     */
+    public function varDelete($key)
+    {
         // Ejemplo de array con los datos de la variable a eliminar
         $array_example = [
             "type" => "delete",
-            "key" => "valor key"
+            "key" => $key
         ];
 
         // Llamada a la función para consumir el servicio web
-        $return = $this::programConsumeWebService($this->url_var, "POST", $this->api_key, $array_example);
+        $return = $this->programConsumeWebService($this->url_var, "POST", $this->api_key, $array_example);
+
+        return $return;
     }
  ```
  
@@ -305,15 +386,25 @@ A continuación se describe el único parámetro del JSON enviado al API:
 Es importante tener en cuenta que una vez que todos los valores han sido eliminados de la caché, ya no estarán disponibles para su recuperación. Por lo tanto, asegúrate de que realmente deseas eliminar todos los valores antes de llamar al método "delete_all".
   
   ```php
-    public function varDeleteAll(){
+    /**
+     *     varDeleteAll(): Esta función elimina todas las variables.
+     * $array_example: Un ejemplo de array con el tipo de eliminación "delete_all". Puedes personalizar este array según tus necesidades.
+     * $return: La variable donde se almacenará el resultado de la llamada a la función programConsumeWebService(), que se asume que está definida en otro lugar. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
+     * programConsumeWebService(): Esta función se encarga de consumir un servicio web para eliminar todas las variables. La implementación específica de esta función no se proporciona en el código dado. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
+     */
+    public function varDeleteAll()
+    {
         // Ejemplo de array con el tipo de eliminación "delete_all"
         $array_example = [
             "type" => "delete_all"
         ];
 
         // Llamada a la función para consumir el servicio web
-        $return = $this::programConsumeWebService($this->url_var, "POST", $this->api_key, $array_example);
+        $return = $this->programConsumeWebService($this->url_var, "POST", $this->api_key, $array_example);
+
+        return $return;
     }
+
   ```
 
 ###  addTag()
