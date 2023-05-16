@@ -2,24 +2,23 @@
 
 require_once "../../ApiWhatmasClient.php";
 
+$apiClient = new ApiWhatmasClient(file_get_contents("php://input"));
 
-$object = new ApiWhatmasClient(file_get_contents("php://input"));
+$clientText = $apiClient->text;
 
-$text_client=$object->text;
-
-switch ($object->priority){
+switch ($apiClient->priority) {
     case "1":
-        $object->sendMessage("Hola, por favor escriba su nombre");
+        $apiClient->sendMessage("Hello, please enter your name");
         break;
     case "2":
-        $return=$object->varEdit("NAME",$text_client);
-        $object->sendMessage("Hola, [NAME] escriba su apellido");
+        $return = $apiClient->varEdit("NAME", $clientText);
+        $apiClient->sendMessage("Hello, [NAME], please enter your last name");
         break;
     case "3":
-        $return=$object->varEdit("LASTNAME",$text_client);
-        $object->sendMessage("Nombre completo: [NAME] [LASTNAME]");
+        $return = $apiClient->varEdit("LASTNAME", $clientText);
+        $apiClient->sendMessage("Full name: [NAME] [LASTNAME]");
         break;
     default:
-        $object->varDeleteAll();
+        $apiClient->varDeleteAll();
         break;
 }
