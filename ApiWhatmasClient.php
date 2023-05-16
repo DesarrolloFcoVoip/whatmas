@@ -159,9 +159,10 @@ class ApiWhatmasClient
     )
     {
         // Ejemplo de array con los datos de la variable a editar
+        $hash_key=$this->num_client . "_" . $key;
         $array_example = [
             "type" => 'edit',
-            "key" => $key,
+            "key" => $hash_key,
             "value" => $value,
             "time" => $time
         ];
@@ -186,10 +187,11 @@ class ApiWhatmasClient
         $time = 60 //minutes,
     )
     {
+        $hash_key=$this->num_client . "_" . $key;
         // Ejemplo de array con los datos de la nueva variable a agregar
         $array_example = [
             "type" => "add",
-            "key" => $key,
+            "key" => $hash_key,
             "value" => $value,
             "time" => $time
         ];
@@ -212,10 +214,11 @@ class ApiWhatmasClient
         $key
     )
     {
+        $hash_key=$this->num_client . "_" . $key;
         // Ejemplo de array con los datos de la variable a leer
         $array_example = [
             "type" => "read",
-            "key" => $key
+            "key" => $hash_key
         ];
 
         // Llamada a la función para consumir el servicio web
@@ -234,10 +237,11 @@ class ApiWhatmasClient
 
     public function varDelete($key)
     {
+        $hash_key=$this->num_client . "_" . $key;
         // Ejemplo de array con los datos de la variable a eliminar
         $array_example = [
             "type" => "delete",
-            "key" => $key
+            "key" => $hash_key
         ];
 
         // Llamada a la función para consumir el servicio web
