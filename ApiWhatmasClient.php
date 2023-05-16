@@ -27,20 +27,23 @@ class ApiWhatmasClient
 
     function __construct($data)
     {
-        $this->api_key=getenv('API_KEY_WHATMAS');
+        // Get the API key from the environment variables
+        $this->api_key = getenv('API_KEY_WHATMAS');
 
+        // Get the Authorization header from the request
         $headers = apache_request_headers();
-        $Authorization = $headers['Authorization'];
+        $authorization = $headers['Authorization'];
 
+        // Parse the input data
         $data_general = json_decode($data, TRUE);
 
-
+        // Extract relevant fields from the data
         $number_client = $data_general["num_client"];
         $text = $data_general["text"];
         $num_company = $data_general["num_company"];
         $variables = $data_general["apc"];
 
-
+        // Set the extracted values to class properties
         $this->num_client = $number_client;
         $this->text = $text;
         $this->num_company = $num_company;
@@ -48,9 +51,10 @@ class ApiWhatmasClient
         $this->setVarFromArray();
         $label = $this->getLabel();
 
+        // Get the priority information
         $prioridad = $this->getPriorityGeneral();
 
-
+        // Set the priority, next priority, and label
         $this->priority = $prioridad["priority"];
         $this->priority_next = $prioridad["priority_next"];
         $this->label = $label;
@@ -64,14 +68,15 @@ class ApiWhatmasClient
     }
 
     /**
-     *     sendMessageList(): Esta función envía un mensaje de tipo lista.
-     * $array_example: Un ejemplo de array con los datos del mensaje a enviar. Puedes personalizar este array según tus necesidades.
-     * $return: La variable donde se almacenará el resultado de la llamada a la función programConsumeWebService(), que se asume que está definida en otro lugar. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
-     * programConsumeWebService(): Esta función se encarga de consumir un servicio web para enviar el mensaje. La implementación específica de esta función no se proporciona en el código dado.
+     * sendMessageList(): This function sends a list-type message.
+     * $array_example: An example array with the message data to send. You can customize this array according to your needs.
+     * $return: The variable where the result of the programConsumeWebService() function call will be stored. Make sure to define and use this function correctly in your implementation.
+     * programConsumeWebService(): This function is responsible for consuming a web service to send the message. The specific implementation of this function is not provided in the given code.
      */
+
     public function sendMessageList($text = "Hello, world!", $title_list = "Title list", $items = NULL)
     {
-        // Ejemplo de array con los datos del mensaje a enviar
+
         $array_example = [
             "company_channel_number" => $this->num_company,
             "message_text" =>  $this->replaceText($text),
@@ -85,35 +90,6 @@ class ApiWhatmasClient
                 ]
             ]
         ];
-
-        $array_items_example=[
-            [
-                "title" => "Titulo",
-                "description" => "Buenas."
-            ],
-            [
-                "title" => "Titulo",
-                "description" => "Buenas."
-            ],
-            [
-                "title" => "Titulo",
-                "description" => "Buenas."
-            ],
-            [
-                "title" => "Titulo",
-                "description" => "Buenas."
-            ],
-            [
-                "title" => "Titulo",
-                "description" => "Buenas."
-            ],
-            [
-                "title" => "Titulo",
-                "description" => "Buenas."
-            ]
-        ];
-
-
         // Llamada a la función para consumir el servicio web
         $return = $this->programConsumeWebService($this->url_send_message, "POST", $this->api_key, $array_example);
 
@@ -122,10 +98,10 @@ class ApiWhatmasClient
 
 
     /**
-     *     sendMessageButton(): Esta función envía un mensaje de tipo botón.
-     * $array_example: Un ejemplo de array con los datos del mensaje a enviar. Puedes personalizar este array según tus necesidades.
-     * $return: La variable donde se almacenará el resultado de la llamada a la función programConsumeWebService(), que se asume que está definida en otro lugar. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
-     * programConsumeWebService(): Esta función se encarga de consumir un servicio web para enviar el mensaje. La implementación específica de esta función no se proporciona en el código dado. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
+     * sendMessageButton(): This function sends a button-type message.
+     * $array_example: An example array with the message data to send. You can customize this array according to your needs.
+     * $return: The variable where the result of the programConsumeWebService() function call will be stored. Make sure to define and use this function correctly in your implementation.
+     * programConsumeWebService(): This function is responsible for consuming a web service to send the message. The specific implementation of this function is not provided in the given code. Make sure to define and use this function correctly in your implementation.
      */
     public function sendMessageButton($text = "Hello, world!", $items = NULL)
     {
@@ -139,8 +115,6 @@ class ApiWhatmasClient
             "items" => $items
         ];
 
-        $items_example = ["button 1", "button 2", "button 3"];
-
         // Llamada a la función para consumir el servicio web
         $return = $this->programConsumeWebService($this->url_send_message, "POST", $this->api_key, $array_example);
 
@@ -149,10 +123,10 @@ class ApiWhatmasClient
 
 
     /**
-     *     sendMessage(): Esta función envía un mensaje de texto.
-     * $array_example: Un ejemplo de array con los datos del mensaje a enviar. Puedes personalizar este array según tus necesidades.
-     * $return: La variable donde se almacenará el resultado de la llamada a la función programConsumeWebService(), que se asume que está definida en otro lugar. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
-     * programConsumeWebService(): Esta función se encarga de consumir un servicio web para enviar el mensaje. La implementación específica de esta función no se proporciona en el código dado. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
+     * sendMessage(): This function sends a text message.
+     * $array_example: An example array with the message data to send. You can customize this array according to your needs.
+     * $return: The variable where the result of the programConsumeWebService() function call will be stored. Make sure to define and use this function correctly in your implementation.
+     * programConsumeWebService(): This function is responsible for consuming a web service to send the message. The specific implementation of this function is not provided in the given code. Make sure to define and use this function correctly in your implementation.
      */
     public function sendMessage($text = "Hello, world!")
     {
@@ -172,11 +146,12 @@ class ApiWhatmasClient
     }
 
     /**
-     *     varEdit(): Esta función edita una variable.
-     * $array_example: Un ejemplo de array con los datos de la variable a editar. Puedes personalizar este array según tus necesidades.
-     * $return: La variable donde se almacenará el resultado de la llamada a la función programConsumeWebService(), que se asume que está definida en otro lugar. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
-     * programConsumeWebService(): Esta función se encarga de consumir un servicio web para realizar la edición de la variable. La implementación específica de esta función no se proporciona en el código dado. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
+     * varEdit(): This function edits a variable.
+     * $array_example: An example array with the data of the variable to edit. You can customize this array according to your needs.
+     * $return: The variable where the result of the programConsumeWebService() function call will be stored. Make sure to define and use this function correctly in your implementation.
+     * programConsumeWebService(): This function is responsible for consuming a web service to perform the variable editing. The specific implementation of this function is not provided in the given code. Make sure to define and use this function correctly in your implementation.
      */
+
     public function varEdit(
         $key,
         $value,
@@ -199,11 +174,12 @@ class ApiWhatmasClient
 
 
     /**
-     *     varAdd(): Esta función agrega una nueva variable.
-     * $array_example: Un ejemplo de array con los datos de la nueva variable a agregar. Puedes personalizar este array según tus necesidades.
-     * $return: La variable donde se almacenará el resultado de la llamada a la función programConsumeWebService(), que se asume que está definida en otro lugar. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
-     * programConsumeWebService(): Esta función se encarga de consumir un servicio web para agregar la nueva variable. La implementación específica de esta función no se proporciona en el código dado. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
+     * varAdd(): This function adds a new variable.
+     * $array_example: An example array with the data of the new variable to add. You can customize this array according to your needs.
+     * $return: The variable where the result of the programConsumeWebService() function call will be stored. Make sure to define and use this function correctly in your implementation.
+     * programConsumeWebService(): This function is responsible for consuming a web service to add the new variable. The specific implementation of this function is not provided in the given code. Make sure to define and use this function correctly in your implementation.
      */
+
     public function varAdd(
         $key,
         $value,
@@ -226,11 +202,12 @@ class ApiWhatmasClient
 
 
     /**
-     *     varRead(): Esta función lee el valor de una variable.
-     * $array_example: Un ejemplo de array con los datos de la variable a leer. Puedes personalizar este array según tus necesidades.
-     * $return: La variable donde se almacenará el resultado de la llamada a la función programConsumeWebService(), que se asume que está definida en otro lugar. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
-     * programConsumeWebService(): Esta función se encarga de consumir un servicio web para leer el valor de la variable. La implementación específica de esta función no se proporciona en el código dado. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
+     * varRead(): This function reads the value of a variable.
+     * $array_example: An example array with the data of the variable to read. You can customize this array according to your needs.
+     * $return: The variable where the result of the programConsumeWebService() function call will be stored. Make sure to define and use this function correctly in your implementation.
+     * programConsumeWebService(): This function is responsible for consuming a web service to read the value of the variable. The specific implementation of this function is not provided in the given code. Make sure to define and use this function correctly in your implementation.
      */
+
     public function varRead(
         $key
     )
@@ -249,11 +226,12 @@ class ApiWhatmasClient
 
 
     /**
-     *     varDelete(): Esta función elimina una variable.
-     * $array_example: Un ejemplo de array con los datos de la variable a eliminar. Puedes personalizar este array según tus necesidades.
-     * $return: La variable donde se almacenará el resultado de la llamada a la función programConsumeWebService(), que se asume que está definida en otro lugar. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
-     * programConsumeWebService(): Esta función se encarga de consumir un servicio web para eliminar la variable. La implementación específica de esta función no se proporciona en el código dado. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
+     * varDelete(): This function deletes a variable.
+     * $array_example: An example array with the data of the variable to delete. You can customize this array according to your needs.
+     * $return: The variable where the result of the programConsumeWebService() function call will be stored. Make sure to define and use this function correctly in your implementation.
+     * programConsumeWebService(): This function is responsible for consuming a web service to delete the variable. The specific implementation of this function is not provided in the given code. Make sure to define and use this function correctly in your implementation.
      */
+
     public function varDelete($key)
     {
         // Ejemplo de array con los datos de la variable a eliminar
@@ -269,11 +247,12 @@ class ApiWhatmasClient
     }
 
     /**
-     *     varDeleteAll(): Esta función elimina todas las variables.
-     * $array_example: Un ejemplo de array con el tipo de eliminación "delete_all". Puedes personalizar este array según tus necesidades.
-     * $return: La variable donde se almacenará el resultado de la llamada a la función programConsumeWebService(), que se asume que está definida en otro lugar. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
-     * programConsumeWebService(): Esta función se encarga de consumir un servicio web para eliminar todas las variables. La implementación específica de esta función no se proporciona en el código dado. Asegúrate de definir y utilizar correctamente esta función en tu implementación.
+     * varDeleteAll(): This function deletes all variables.
+     * $array_example: An example array with the deletion type "delete_all". You can customize this array according to your needs.
+     * $return: The variable where the result of the programConsumeWebService() function call will be stored. Make sure to define and use this function correctly in your implementation.
+     * programConsumeWebService(): This function is responsible for consuming a web service to delete all variables. The specific implementation of this function is not provided in the given code. Make sure to define and use this function correctly in your implementation.
      */
+
     public function varDeleteAll()
     {
         // Ejemplo de array con el tipo de eliminación "delete_all"
@@ -293,7 +272,7 @@ class ApiWhatmasClient
         // Ejemplo de array con el tipo de eliminación "delete_all"
         $array_example = [
             "tag_name" => "tag_name",
-            "recipient_number" => "recipient_number",
+            "recipient_number" =>$this->num_client,
         ];
 
         // Llamada a la función para consumir el servicio web
@@ -374,24 +353,21 @@ class ApiWhatmasClient
 
 
     /**
-     * Consumir un servicio web utilizando cURL.
+     * Consume a web service using cURL.
      *
-     * @param string $url URL del servicio web.
-     * @param string $type Tipo de petición ('GET' o 'POST').
-     * @param string $token Token de autorización.
-     * @param array $data Datos de la petición en formato de array.
+     * @param string $url URL of the web service.
+     * @param string $type Request type ('GET' or 'POST').
+     * @param string $token Authorization token.
+     * @param array $data Request data in array format.
      *
-     * @return mixed Respuesta del servicio web.
-     *
-     *
-     *
+     * @return mixed Web service response.
      */
     private function programConsumeWebService($url, $type, $token, $data)
     {
-        // Inicializamos el CURL
+        // Initialize cURL
         $curl = curl_init();
 
-        // Validamos el tipo de la petición (GET o POST)
+        // Validate request type (GET or POST)
         if ($type == 'GET') {
             $parameters = http_build_query($data);
             if ($parameters == false) {
@@ -399,23 +375,23 @@ class ApiWhatmasClient
             } else {
                 $url_api = $url . '?' . $parameters;
             }
-            // Se arma y se obtiene la URL final para petición GET
+            // Build and get the final URL for GET request
         } else {
-            // Se obtiene la URL final para petición POST
+            // Get the final URL for POST request
             $url_api = $url;
 
-            // Convertimos los datos a formato JSON
+            // Convert data to JSON format
             $data = json_encode($data);
 
-            // Habilitamos método POST para el CURL
+            // Enable POST method for cURL
             curl_setopt($curl, CURLOPT_POST, true);
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         }
 
-        // Opciones de configuración para el CURL
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); // Respuesta del CURL retornada como string
+        // cURL configuration options
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); // Return cURL response as a string
         curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true); // true para verificar el peer del certificado
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true); // true to verify the peer's certificate
         curl_setopt($curl, CURLOPT_ENCODING, "");
         curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
         curl_setopt($curl, CURLOPT_TIMEOUT, 30);
@@ -423,21 +399,22 @@ class ApiWhatmasClient
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $type);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_URL, $url_api); // Especificamos la URL a la que se consumirá el servicio
+        curl_setopt($curl, CURLOPT_URL, $url_api); // Specify the URL to consume the web service
 
-        // Configuramos los headers requeridos para ejecutar la petición
+        // Configure the required headers for the request
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json',
             'Authorization: ' . $token
         ));
 
-        // Ejecutamos (enviamos) el CURL
+        // Execute the cURL request
         $curlResponse = curl_exec($curl);
         $return = json_decode($curlResponse, true);
-        // Cerramos la conexión del CURL
+
+        // Close the cURL connection
         curl_close($curl);
 
-        // Retornamos la respuesta de la petición
+        // Return the request response
         if (!$curlResponse)
             return false;
         else {
@@ -445,10 +422,9 @@ class ApiWhatmasClient
                 $this->returnMessage($return);
             else
                 return $return;
-
         }
-
     }
+
 
     /**
      * Replaces variables in the text with their corresponding values.
