@@ -301,14 +301,6 @@ Here are the parameters of the JSON sent to the API:
 
 It's important to note that the value returned by the "read" method may be expired if the specified lifetime has passed since adding or updating the value in the cache. Therefore, you may need to check if the returned value is still valid before using it.
 ```php
-The "delete" method is used to remove a specific value from the cache database.
-
-Here are the parameters of the JSON sent to the API:
-
-- "type": indicates the type of operation to be performed, in this case "delete" to remove a value from the cache.
-- "key": is the unique key that will be used to access the value in the cache that needs to be deleted. The key must exist in the cache database.
-
-By using the "delete" method, you can remove unwanted or expired values from the cache, freeing up memory and ensuring that only valid and up-to-date information is stored.
     public function varRead(
         $key
     )
