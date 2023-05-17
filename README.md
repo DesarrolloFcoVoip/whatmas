@@ -30,7 +30,8 @@ These methods use a helper function called programConsumeWebService() to make th
 
 - [Setup](#Setup)
 - [Use](#Use)
-- [Method](#Methods)
+- [EndPoints](#EndPoints)
+- [Method](#Method)
   - [sendMessageList()](#sendmessagelist)
   - [sendMessageButton()](#sendmessagebutton)
   - [sendMessage()](#sendmessage)
@@ -40,6 +41,8 @@ These methods use a helper function called programConsumeWebService() to make th
   - [varDelete()](#vardelete)
   - [varDeleteAll()](#vardeleteall)
   - [addTag()](#addTag)
+- [Code Error](#Errors)
+- [Limitations](#Limitations)
 
 
 ## Setup
@@ -47,46 +50,31 @@ These methods use a helper function called programConsumeWebService() to make th
 To use this application, follow the steps below:
 - Clone the repository to your local machine.
 - Import the class into your project.
-- Export the API_KEY_WHATMAS variable globally.
+- Export the `API_KEY_WHATMAS` variable globally (Can be found in the `API KEY` configuration section.).
 - Send the information received by the POST as parameters to instantiate the class.
   ```php
-        $object = new ApiWhatmasClient(file_get_contents("php://input"));
+  $object = new ApiWhatmasClient(file_get_contents("php://input"));
   ```
 
-## Methods
-Now you can use the different methods available in the ApiWhatmasClient class to interact with the web service. For example:  
-
-```php
-// Send an interactive message of type list
-$object->sendMessageList();
-
-// Send an interactive message with buttons
-$object->sendMessageButton();
-
-// Send a simple text message
-$object->sendMessage();
-
-// Edit a variable in the web service
-$object->varEdit();
-
-// Add a new variable to the web service
-$object->varAdd();
-
-// Read the value of a variable from the web service
-$object->varRead();
-
-// Delete a variable from the web service
-$object->varDelete();
-
-// Delete all variables from the web service
-$object->varDeleteAll();
-  ```
     
 ## Use
 
-Explicación de cómo utilizar el proyecto. Incluye ejemplos de código, comandos o configuraciones.
+  ```php
+  $object = new ApiWhatmasClient(file_get_contents("php://input"));
+  $object->sendMessageList("Hello, world!");
+  ```
 
-## Métodos
+## EndPoints
+Base Url: `https://app.whatmas.com/api/v1/`
+
+SendMessages: `send_message/`
+
+Tags: `tag/`
+
+ Variable: `var/`
+
+
+## Method
 
 ### sendMessageList()
 
@@ -132,6 +120,11 @@ The `send_message_list` method is an effective way to send interactive messages 
         return $return;
     }
 ```
+#### Example
+- `1`![img_3.png](img_3.png)
+
+- `2` ![img_2.png](img_2.png)
+
 
 ### sendMessageButton()
 
@@ -172,6 +165,8 @@ The `send_message_button` method is an effective way to send interactive message
         return $return;
     }
 ```
+#### Example
+![img_1.png](img_1.png)
 
 ### sendMessage()
 
@@ -210,6 +205,8 @@ The `send_message_text` method is an effective way to send simple text messages 
         return $return;
     }
  ```
+#### Example 
+![img_4.png](img_4.png)
  ### varEdit()
 
 The `edit` method is used to update an existing value in the cache database.
@@ -399,4 +396,31 @@ This endpoint allows adding a tag to a contact in the API. The tag is assigned t
         $return = $this::programConsumeWebService($this->url_tag, "POST", $this->api_key, $array_example);
     }
  ```
+
+## Errors
+
+-  `1000`: Invalid request
+- `1001`: Unauthorized
+- `1002`: Invalid token
+- `1003`: Method Not Allowed
+- `1004`: Number company unauthorized
+- `2001`: Type message unauthorized
+- `2002`: Subtype message unauthorized
+- `5000`: return API META
+- `2003`: You have reached the maximum limit of send messages
+- `3000`: Maximum time limit exceeded while creating variable.
+- `3001`: Unable to create variable. Please choose a different name for the variable or delete the existing variable before creating a new one.
+- `3002`: Maximum variable limit exceeded. Unable to create variable
+- `3003`: Variable does not exist.
+
+## Limitations
+  The API has the following limitations and restrictions:
+
+- `Maximum limit of sent messages reached`: When the maximum limit of sent messages is reached, a specific response code will be returned indicating that the limit has been reached.
+- `Maximum time limit exceeded for creating a variable`: If the maximum time limit for creating a variable is exceeded, a corresponding response code will be returned.
+- `Unable to create the variable`: If the variable cannot be created due to a duplicate name or reaching the maximum limit, an appropriate response code will be returned with an explanatory message.
+- `Variable does not exist`: If an attempt is made to access or modify a variable that does not exist, a response code indicating that the variable does not exist will be returned.
+
+Make sure to take these limitations into account and handle errors properly in your implementation when interacting with the API.
+
  
