@@ -121,9 +121,9 @@ The `send_message_list` method is an effective way to send interactive messages 
     }
 ```
 #### Example
-- `1`![img_3.png](img_3.png)
+- `1`![img_3.png](img_examples/img_3.png)
 
-- `2` ![img_2.png](img_2.png)
+- `2` ![img_2.png](img_examples/img_2.png)
 
 
 ### sendMessageButton()
@@ -166,7 +166,7 @@ The `send_message_button` method is an effective way to send interactive message
     }
 ```
 #### Example
-![img_1.png](img_1.png)
+![img_1.png](img_examples/img_1.png)
 
 ### sendMessage()
 
@@ -206,7 +206,7 @@ The `send_message_text` method is an effective way to send simple text messages 
     }
  ```
 #### Example 
-![img_4.png](img_4.png)
+![img_4.png](img_examples/img_4.png)
  ### varEdit()
 
 The `edit` method is used to update an existing value in the cache database.
