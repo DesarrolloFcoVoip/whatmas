@@ -47,7 +47,7 @@ These methods use a helper function called programConsumeWebService() to make th
 To use this application, follow the steps below:
 - Clone the repository to your local machine.
 - Import the class into your project.
-- Export the API_KEY variable globally.
+- Export the API_KEY_WHATMAS variable globally.
 - Send the information received by the POST as parameters to instantiate the class.
   ```php
         $object = new ApiWhatmasClient(file_get_contents("php://input"));
